@@ -56,16 +56,18 @@ exports.handler = async function(event) {
           releaseYear: movie.startYear,
           genres: movie.genres
         }
+                
         // add the movie to the array of movies to return
         moviesToReturn.movies.push(movieData)
+
+        // add number of movies to the returned movies object
+        moviesToReturn.numResults = moviesToReturn.movies.length
+
+        // update numResults object for the # of movies passing QS parameters
+        let numResults = moviesToReturn.count
+
       }
     }
-
-    // add number of movies to the returned movies object
-    moviesToReturn.numResults = moviesToReturn.movies.length
-
-    // update numResults for the movies passing QS parameters
-    let numResults = moviesToReturn.count
 
     // a lambda function returns a status code and a string of data
     return {
