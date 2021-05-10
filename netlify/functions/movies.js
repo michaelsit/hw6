@@ -59,10 +59,11 @@ exports.handler = async function(event) {
                 
         // add the movie to the array of movies to return
         moviesToReturn.movies.push(movieData)
+
       }
     }
 
-    // add number of movies to the JSON object
+    // add numResults to the JSON object
     moviesToReturn.numResults = moviesToReturn.movies.length
 
     // a lambda function returns a status code and a string of data
