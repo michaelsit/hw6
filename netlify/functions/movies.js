@@ -35,7 +35,7 @@ exports.handler = async function(event) {
   if (year == undefined || genre == undefined) {
     return {
       statusCode: 200, // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-      body: `Nope!` // a string of data
+      body: `ERROR - Year or Genre Parameter Missing!` // a string of data
     }
   }
   else {
@@ -48,28 +48,28 @@ exports.handler = async function(event) {
       // store each movie in memory
       let movie = moviesFromCsv[i]
       // check if querystring parameters are met
-      if (movie.startYear == year && movie.genres == genre && movie.genres != `\\N` && movie.runtimeMinutes != `\\N`) {
+      if (movie.startYear == year && movie.genres.includes(`${genre}`) && movie.genres != `\\N` && movie.runtimeMinutes != `\\N`) {
         
         // create a new movie object containing pertinent fields (primary title, release year, genres)
         let movieData = {
-          primaryTitle: movie.primaryTitle,
-          releaseYear: movie.startYear,
-          genres: movie.genres
+          Title: movie.primaryTitle,
+          Year: movie.startYear,
+          Genres: movie.genres
         }
                 
-        // add the movie to the array of movies to return
-        moviesToReturn.movies.push(movieData)
+        // add the movie to returnValue array of movies
+        returnValue.movies.push(movieData)
 
       }
     }
 
-    // add numResults to the JSON object
-    moviesToReturn.numResults = moviesToReturn.movies.length
+    // Count and add numResults to the returnValue JSON object
+    returnValue.numResults = returnValue.movies.length
 
     // a lambda function returns a status code and a string of data
     return {
       statusCode: 200, // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-      body: JSON.stringify(moviesToReturn) // a string of data
+      body: JSON.stringify(returnValue) // a string of data
     }
   }
 }
