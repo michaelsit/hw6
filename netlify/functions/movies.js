@@ -49,7 +49,7 @@ exports.handler = async function(event) {
       let movie = moviesFromCsv[i]
       // check if querystring parameters are met
       if (movie.startYear == year && movie.genres == genre && movie.genres != `\\N` && movie.runtimeMinutes != `\\N`) {
-
+        
         // create a new movie object containing pertinent fields (primary title, release year, genres)
         let movieData = {
           primaryTitle: movie.primaryTitle,
@@ -59,15 +59,11 @@ exports.handler = async function(event) {
                 
         // add the movie to the array of movies to return
         moviesToReturn.movies.push(movieData)
-
-        // add number of movies to the returned movies object
-        moviesToReturn.numResults = moviesToReturn.movies.length
-
-        // update numResults object for the # of movies passing QS parameters
-        let numResults = moviesToReturn.count
-
       }
     }
+
+    // add number of movies to the JSON object
+    moviesToReturn.numResults = moviesToReturn.movies.length
 
     // a lambda function returns a status code and a string of data
     return {
