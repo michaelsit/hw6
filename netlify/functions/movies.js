@@ -19,6 +19,16 @@ exports.handler = async function(event) {
   console.log(moviesFromCsv)
 
   // 🔥 hw6: your recipe and code starts here!
+  // Provided: code for reading data into a JS object
+  // Goal: create a JSON-based API for front-end JS developers to use
+
+  // create a new object to hold the count and movies data
+  let moviesToReturn = {}
+
+  // start with an empty Array for the movies
+  moviesToReturn.movies = []
+
+  // provided code
   let year = event.queryStringParameters.year
   let genre = event.queryStringParameters.genre
   
@@ -35,13 +45,35 @@ exports.handler = async function(event) {
     }
 
     for (let i=0; i < moviesFromCsv.length; i++) {
+      // store each movie in memory
+      let movie = moviesFromCsv[i]
+      // check if querystring parameters are met
+      if (movie.startYear == year && movie.genres == genre && movie.genres != `\\N` && movie.runtimeMinutes != `\\N`) {
+
+        // create a new movie object containing pertinent fields (primary title, release year, genres)
+        let movieData = {
+          primaryTitle: movie.primaryTitle,
+          releaseYear: movie.startYear,
+          genres: movie.genres
+        }
+        // add the movie to the array of movies to return
+        moviesToReturn.movies.push(movieData)
+        
+      }
 
     }
+
+    // add number of movies to the returned movies object
+    moviesToReturn.numResults = moviesToReturn.movies.length
+
+    // update numResults for the movies passing QS parameters
+    let numResults = moviesToReturn.count
+
 
     // a lambda function returns a status code and a string of data
     return {
       statusCode: 200, // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-      body: `Hello from the back-end!` // a string of data
+      body: JSON.stringify(moviesToReturn) // a string of data
     }
   }
 }
