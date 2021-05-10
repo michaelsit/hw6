@@ -58,9 +58,7 @@ exports.handler = async function(event) {
         }
         // add the movie to the array of movies to return
         moviesToReturn.movies.push(movieData)
-        
       }
-
     }
 
     // add number of movies to the returned movies object
@@ -68,7 +66,6 @@ exports.handler = async function(event) {
 
     // update numResults for the movies passing QS parameters
     let numResults = moviesToReturn.count
-
 
     // a lambda function returns a status code and a string of data
     return {
